@@ -1,0 +1,295 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Color_004</title><meta name="generator" content="MATLAB 9.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-04-11"><meta name="DC.source" content="Color_004.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput">clear
+close <span class="string">all</span>;
+clc
+
+<span class="comment">%%%%%%%%%%%%%%%%%%%% VERSION 3 %%%%%%%%%%%%%%%%%%%%</span>
+
+<span class="comment">%Variables</span>
+color = [<span class="string">"Red"</span> <span class="string">"Orange"</span> <span class="string">"Yellow"</span> <span class="string">"Green"</span> <span class="string">"Blue"</span> <span class="string">"Purple"</span> <span class="string">"Black"</span> <span class="string">"Noise"</span>];
+mult = 1.3;
+fprintf(<span class="string">'Results from Analysis with +/- %.2f SD\n'</span>,mult);
+fprintf(<span class="string">'______________________________________________________\n'</span>);
+fprintf(<span class="string">'Color\tR_low\tR_high\tG_low\tG_high\tB_low\tB_high\n'</span>);
+
+<span class="keyword">for</span> i = 1:length(color)
+    <span class="comment">%Variables</span>
+    clear <span class="string">R_Total</span> <span class="string">G_Total</span> <span class="string">B_Total</span>
+    R_Total = zeros(1,256);
+    G_Total = zeros(1,256);
+    B_Total = zeros(1,256);
+
+    <span class="keyword">for</span> j = 1:5
+        <span class="comment">%Variables</span>
+        chr = convertStringsToChars(color(i));
+        str = strcat(chr,int2str(j),<span class="string">'.jpg'</span>);
+        Data = imread(str);
+        R = Data(:,:,1);
+        G = Data(:,:,2);
+        B = Data(:,:,3);
+        line = [0 0.1];
+
+        <span class="comment">%Totalling</span>
+        R_Total = [R_Total R(:)'];
+        G_Total = [G_Total G(:)'];
+        B_Total = [B_Total B(:)'];
+    <span class="keyword">end</span>
+
+    <span class="comment">%Total Mean &amp; SD</span>
+    r_mean = mean(R_Total);
+    g_mean = mean(G_Total);
+    b_mean = mean(B_Total);
+    r_sd = std2(R_Total);
+    g_sd = std2(G_Total);
+    b_sd = std2(B_Total);
+
+    <span class="comment">%RGB High &amp; Low Values</span>
+    <span class="comment">%(based on 2 SD)</span>
+    r_high = r_mean + mult*r_sd;
+    r_low = r_mean - mult*r_sd;
+    g_high = g_mean + mult*g_sd;
+    g_low = g_mean - mult*g_sd;
+    b_high = b_mean + mult*b_sd;
+    b_low = b_mean - mult*b_sd;
+    fprintf(<span class="string">'%s \t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n'</span>,color(i),r_low,r_high,g_low,g_high,b_low,b_high);
+
+    <span class="comment">%Display Results</span>
+
+
+    <span class="comment">%Plot RGB Histogram</span>
+    figure(i);
+    hold <span class="string">on</span>;
+    histogram(R_Total,0:1:256,<span class="string">'FaceColor'</span>,<span class="string">'r'</span>,<span class="string">'Normalization'</span>,<span class="string">'probability'</span>);
+    histogram(G_Total,0:1:256,<span class="string">'FaceColor'</span>,<span class="string">'g'</span>,<span class="string">'Normalization'</span>,<span class="string">'probability'</span>);
+    histogram(B_Total,0:1:256,<span class="string">'FaceColor'</span>,<span class="string">'b'</span>,<span class="string">'Normalization'</span>,<span class="string">'probability'</span>);
+    plot(r_low*ones(2,1),line,<span class="string">'color'</span>,<span class="string">'k'</span>,<span class="string">'linewidth'</span>,2); <span class="comment">% r_low line</span>
+    plot(r_high*ones(2,1),line,<span class="string">'color'</span>,<span class="string">'k'</span>,<span class="string">'linewidth'</span>,2); <span class="comment">% r_high line</span>
+    plot(g_low*ones(2,1),line,<span class="string">'color'</span>,<span class="string">'k'</span>,<span class="string">'linewidth'</span>,2); <span class="comment">% g_low line</span>
+    plot(g_high*ones(2,1),line,<span class="string">'color'</span>,<span class="string">'k'</span>,<span class="string">'linewidth'</span>,2); <span class="comment">% g_high line</span>
+    plot(b_low*ones(2,1),line,<span class="string">'color'</span>,<span class="string">'k'</span>,<span class="string">'linewidth'</span>,2); <span class="comment">% b_low line</span>
+    plot(b_high*ones(2,1),line,<span class="string">'color'</span>,<span class="string">'k'</span>,<span class="string">'linewidth'</span>,2); <span class="comment">% b_high line</span>
+    tit = strcat(color(i),<span class="string">' RGB Histogram'</span>);
+    title(tit);
+    xlabel(<span class="string">'RGB Value'</span>);
+    ylabel(<span class="string">'Frequency (Normalized)'</span>);
+    legend(<span class="string">'r'</span>,<span class="string">'g'</span>,<span class="string">'b'</span>);
+
+    <span class="comment">%3D Plot Points</span>
+    x = [r_low r_high r_high r_low r_low; r_low r_high r_high r_low r_low];
+    y = [g_low g_low g_high g_high g_low; g_low g_low g_high g_high g_low];
+    z = [b_low*ones(1,size(x,2)); b_high*ones(1,size(x,2))];
+    r_trip = r_mean/255;
+    g_trip = g_mean/255;
+    b_trip = b_mean/255;
+    trip = [r_trip g_trip b_trip];
+
+    <span class="comment">%3D Plot</span>
+    figure(length(color)+1);
+    Temp = surf(x, y, z, <span class="string">'FaceColor'</span>, trip);
+    hold <span class="string">on</span>
+    grid <span class="string">on</span>
+    patch(x', y', z', trip)
+    xlabel(<span class="string">'Red'</span>);
+    ylabel(<span class="string">'Green'</span>);
+    zlabel(<span class="string">'Blue'</span>);
+    axis([-10 265 -10 265 -10 265]);
+    view(-25, 30)
+
+    figure(length(color)+2);
+    hold <span class="string">on</span>
+    grid <span class="string">on</span>
+    plot3(R_Total, G_Total, B_Total, <span class="string">'.'</span>, <span class="string">'Color'</span>, trip, <span class="string">'MarkerSize'</span>, 2);
+    xlabel(<span class="string">'Red'</span>);
+    ylabel(<span class="string">'Green'</span>);
+    zlabel(<span class="string">'Blue'</span>);
+    axis([-10 265 -10 265 -10 265]);
+    view(-25, 30)
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Results from Analysis with +/- 1.30 SD
+______________________________________________________
+Color	R_low	R_high	G_low	G_high	B_low	B_high
+Red 	112.15	161.09	12.77	25.21	8.50	31.32
+Orange 	136.16	182.80	39.73	94.25	6.52	38.81
+Yellow 	134.08	176.05	99.51	141.46	9.55	35.89
+Green 	29.18	98.64	99.78	170.94	63.92	125.29
+Blue 	9.62	42.41	50.09	95.98	95.27	150.34
+Purple 	55.32	118.33	35.47	74.37	87.97	142.41
+Black 	16.97	72.27	18.96	81.11	24.20	86.29
+Noise 	-0.72	90.71	93.36	205.75	120.05	217.33
+</pre><img vspace="5" hspace="5" src="Color_004_01.png" alt=""> <img vspace="5" hspace="5" src="Color_004_02.png" alt=""> <img vspace="5" hspace="5" src="Color_004_03.png" alt=""> <img vspace="5" hspace="5" src="Color_004_04.png" alt=""> <img vspace="5" hspace="5" src="Color_004_05.png" alt=""> <img vspace="5" hspace="5" src="Color_004_06.png" alt=""> <img vspace="5" hspace="5" src="Color_004_07.png" alt=""> <img vspace="5" hspace="5" src="Color_004_08.png" alt=""> <img vspace="5" hspace="5" src="Color_004_09.png" alt=""> <img vspace="5" hspace="5" src="Color_004_10.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+clear
+close all;
+clc
+
+%%%%%%%%%%%%%%%%%%%% VERSION 3 %%%%%%%%%%%%%%%%%%%%
+
+%Variables
+color = ["Red" "Orange" "Yellow" "Green" "Blue" "Purple" "Black" "Noise"];
+mult = 1.3;
+fprintf('Results from Analysis with +/- %.2f SD\n',mult);
+fprintf('______________________________________________________\n');
+fprintf('Color\tR_low\tR_high\tG_low\tG_high\tB_low\tB_high\n');
+
+for i = 1:length(color)
+    %Variables
+    clear R_Total G_Total B_Total
+    R_Total = zeros(1,256);
+    G_Total = zeros(1,256);
+    B_Total = zeros(1,256);
+
+    for j = 1:5
+        %Variables
+        chr = convertStringsToChars(color(i));
+        str = strcat(chr,int2str(j),'.jpg');
+        Data = imread(str);
+        R = Data(:,:,1);
+        G = Data(:,:,2);
+        B = Data(:,:,3);
+        line = [0 0.1];
+
+        %Totalling    
+        R_Total = [R_Total R(:)'];
+        G_Total = [G_Total G(:)'];
+        B_Total = [B_Total B(:)'];
+    end
+
+    %Total Mean & SD
+    r_mean = mean(R_Total);
+    g_mean = mean(G_Total);
+    b_mean = mean(B_Total);
+    r_sd = std2(R_Total);
+    g_sd = std2(G_Total);
+    b_sd = std2(B_Total);
+
+    %RGB High & Low Values
+    %(based on 2 SD)
+    r_high = r_mean + mult*r_sd;
+    r_low = r_mean - mult*r_sd;
+    g_high = g_mean + mult*g_sd;
+    g_low = g_mean - mult*g_sd;
+    b_high = b_mean + mult*b_sd;
+    b_low = b_mean - mult*b_sd;
+    fprintf('%s \t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n',color(i),r_low,r_high,g_low,g_high,b_low,b_high);
+
+    %Display Results
+    
+    
+    %Plot RGB Histogram
+    figure(i);
+    hold on;
+    histogram(R_Total,0:1:256,'FaceColor','r','Normalization','probability');
+    histogram(G_Total,0:1:256,'FaceColor','g','Normalization','probability');
+    histogram(B_Total,0:1:256,'FaceColor','b','Normalization','probability');
+    plot(r_low*ones(2,1),line,'color','k','linewidth',2); % r_low line 
+    plot(r_high*ones(2,1),line,'color','k','linewidth',2); % r_high line
+    plot(g_low*ones(2,1),line,'color','k','linewidth',2); % g_low line 
+    plot(g_high*ones(2,1),line,'color','k','linewidth',2); % g_high line
+    plot(b_low*ones(2,1),line,'color','k','linewidth',2); % b_low line 
+    plot(b_high*ones(2,1),line,'color','k','linewidth',2); % b_high line
+    tit = strcat(color(i),' RGB Histogram');
+    title(tit);
+    xlabel('RGB Value');
+    ylabel('Frequency (Normalized)');
+    legend('r','g','b');
+    
+    %3D Plot Points
+    x = [r_low r_high r_high r_low r_low; r_low r_high r_high r_low r_low];
+    y = [g_low g_low g_high g_high g_low; g_low g_low g_high g_high g_low];
+    z = [b_low*ones(1,size(x,2)); b_high*ones(1,size(x,2))];
+    r_trip = r_mean/255;
+    g_trip = g_mean/255;
+    b_trip = b_mean/255;
+    trip = [r_trip g_trip b_trip];
+    
+    %3D Plot
+    figure(length(color)+1);
+    Temp = surf(x, y, z, 'FaceColor', trip);
+    hold on
+    grid on
+    patch(x', y', z', trip)
+    xlabel('Red');
+    ylabel('Green');
+    zlabel('Blue');
+    axis([-10 265 -10 265 -10 265]);
+    view(-25, 30)
+    
+    figure(length(color)+2);
+    hold on
+    grid on
+    plot3(R_Total, G_Total, B_Total, '.', 'Color', trip, 'MarkerSize', 2);
+    xlabel('Red');
+    ylabel('Green');
+    zlabel('Blue');
+    axis([-10 265 -10 265 -10 265]);
+    view(-25, 30)
+end
+##### SOURCE END #####
+--></body></html>

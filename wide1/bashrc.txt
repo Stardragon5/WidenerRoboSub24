@@ -1,0 +1,5 @@
+#in terminal type " nano ~/.bashrc "
+# we added these two lines at the end to establish the communication between wide1 and wide2
+
+export ROS_MASTER_URI=http://10.10.10.2:11311/
+export ROS_HOSTNAME=10.10.10.1
