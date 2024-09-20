@@ -1,3 +1,9 @@
 [submodule "Wide2024Sub1"]
 	path = Wide2024Sub1
 	url = https://github.com/Stardragon5/Wide2024Sub1.git
+[submodule "Wide24sub2"]
+	path = Wide24sub2
+	url = https://github.com/Stardragon5/Wide24sub2.git
+[submodule "Wide2024sub2"]
+	path = Wide2024sub2
+	url = https://github.com/Stardragon5/Wide2024sub2.git
